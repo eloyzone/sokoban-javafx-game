@@ -28,3 +28,7 @@ hs_err_pid*
 *.iws
 *.ipr
 .idea/
+
+# OSX Specific files
+.DS_Store
+
