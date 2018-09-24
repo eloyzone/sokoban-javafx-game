@@ -21,15 +21,16 @@ public class MainMenu
         imageView.setFitHeight(root.getPrefHeight());
         root.getChildren().add(imageView);
 
-        Title title = new Title("S O K O B A N");
-        title.setTranslateY(-200);
+        Title menuTitle = new Title("S O K O B A N");
+        menuTitle.setTranslateY(-200);
 
         MenuVBox vBoxMenuBox = new MenuVBox(
+                new MenuItemPlay(),
                 new MenuItemExit());
 
         vBoxMenuBox.setAlignment(Pos.CENTER);
 
-        root.getChildren().addAll(title, vBoxMenuBox);
+        root.getChildren().addAll(menuTitle, vBoxMenuBox);
 
         return root;
     }
