@@ -1,8 +1,10 @@
 package com.github.eloyzone.sokobanjavafxgame.tile;
 
+import com.github.eloyzone.sokobanjavafxgame.Board;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class LevelTile extends StackPane
 {
@@ -25,7 +27,16 @@ public class LevelTile extends StackPane
         button.setPrefWidth(100);
         button.setId("tile-level-dark-blue");
         button.setText(value);
+        button.setOnAction(e -> createAndShowBoardStage());
 
         getChildren().addAll(button);
+    }
+
+    private Stage createAndShowBoardStage()
+    {
+        Stage boardStage = new Board(levelNumber).getScene();
+        boardStage.show();
+
+        return boardStage;
     }
 }
