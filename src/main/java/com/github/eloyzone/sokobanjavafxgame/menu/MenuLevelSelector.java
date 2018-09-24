@@ -1,6 +1,7 @@
 package com.github.eloyzone.sokobanjavafxgame.menu;
 
 import com.github.eloyzone.sokobanjavafxgame.Main;
+import com.github.eloyzone.sokobanjavafxgame.tile.LevelTile;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,6 +17,8 @@ import javafx.stage.StageStyle;
 public class MenuLevelSelector
 {
     public static Stage menuLevelSelectorStage;
+    private static int MAX_ROW_COUNT = 3;
+    private static int MAX_COLUMN_COUNT = 9;
 
     public void createStageAndShow()
     {
@@ -33,29 +36,38 @@ public class MenuLevelSelector
         Title menuTitle = new Title("SELECT LEVEL", Color.BLACK);
 
         Button backButtonToMainMenu = new Button("<-");
-
-        backButtonToMainMenu.setStyle(
-                "-fx-min-width: 70px; " +
-                        "-fx-min-height: 70px; " +
-                        "-fx-max-width: 70px; " +
-                        "-fx-max-height: 70px;" +
-                        "-fx-background-radius: 5em; " +
-                        "-fx-background-color: black;" +
-                        "-fx-font-size: 25px;" +
-                        "-fx-text-fill: white;"
-        );
+        backButtonToMainMenu.setId("back-button-black");
 
 
         // todo: add levels
+
+        Pane paneLevelTilesContainer = new Pane();
+
+        LevelTile[][] levelTiles = new LevelTile[MAX_ROW_COUNT][MAX_COLUMN_COUNT];
+
+        for (int i = 0; i < MAX_ROW_COUNT; i++)
+        {
+            for (int j = 0; j < MAX_COLUMN_COUNT; j++)
+            {
+                int levelNumber = ((i) * MAX_COLUMN_COUNT) + j + 1;
+
+                levelTiles[i][j] = new LevelTile(String.valueOf(levelNumber), (100 + 10) * j + 30, (100 + 10) * i);
+                paneLevelTilesContainer.getChildren().addAll(levelTiles[i][j]);
+            }
+        }
+
+        paneLevelTilesContainer.setPrefHeight((MAX_ROW_COUNT) * 100);
 
         VBox.setMargin(menuTitle, new Insets(80, 0, 40, 0));
         VBox.setMargin(backButtonToMainMenu, new Insets(40, 0, 0, 5));
 
         backButtonToMainMenu.setOnAction(e -> backToMainMenu());
 
-        vBox.getChildren().addAll(menuTitle, backButtonToMainMenu);
+        vBox.getChildren().addAll(menuTitle, paneLevelTilesContainer, backButtonToMainMenu);
         stackPane.getChildren().addAll(vBox);
+
         Scene scene = new Scene(stackPane);
+        scene.getStylesheets().add(getClass().getResource("/menu_level_selector_menu.css").toExternalForm());
 
         menuLevelSelectorStage = new Stage();
         menuLevelSelectorStage.initStyle(StageStyle.UNDECORATED);
