@@ -1,6 +1,8 @@
 package com.github.eloyzone.sokobanjavafxgame.tile;
 
 import com.github.eloyzone.sokobanjavafxgame.Board;
+import com.github.eloyzone.sokobanjavafxgame.GameEvent;
+import com.github.eloyzone.sokobanjavafxgame.menu.MenuLevelSelector;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -35,6 +37,14 @@ public class LevelTile extends StackPane
     private Stage createAndShowBoardStage()
     {
         Stage boardStage = new Board(levelNumber).getScene();
+        boardStage.setOnShowing(e1 -> MenuLevelSelector.menuLevelSelectorStage.hide());
+
+        boardStage.addEventFilter(GameEvent.END_GAME_LEVEL, event ->
+        {
+            boardStage.close();
+            MenuLevelSelector.menuLevelSelectorStage.show();
+        });
+
         boardStage.show();
 
         return boardStage;

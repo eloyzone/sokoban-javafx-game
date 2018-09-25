@@ -1,17 +1,21 @@
 package com.github.eloyzone.sokobanjavafxgame;
 
+import com.github.eloyzone.sokobanjavafxgame.menu.GamePauseMenu;
 import com.github.eloyzone.sokobanjavafxgame.tile.AbstractTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.PathTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.TargetTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.WallTile;
 import com.github.eloyzone.sokobanjavafxgame.token.BoxToken;
 import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -19,10 +23,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import static javafx.scene.input.KeyCode.ESCAPE;
+
 public class Board
 {
     private Stage boardStage;
     private Pane paneRootBoard;
+    private Stage pauseMenu;
+
 
     private AbstractTile[][] tiles;
     private SokobanToken sokobanToken;
@@ -50,12 +58,46 @@ public class Board
         vBox.getChildren().addAll(paneRootBoard);
         hBox.getChildren().addAll(vBox);
 
+        pauseMenu = createPauseMenu();
         Scene scene = new Scene(hBox, Color.LIGHTGRAY);
 
+        createKeyboardHandlers(scene);
         boardStage.setScene(scene);
         boardStage.initStyle(StageStyle.UNDECORATED);
 
         return boardStage;
+    }
+
+    private void createKeyboardHandlers(Scene scene)
+    {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent event)
+            {
+                switch (event.getCode())
+                {
+                    case UP:
+//                        moveSokobanUp();
+                        break;
+                    case DOWN:
+//                        moveSokobanDown();
+                        break;
+                    case LEFT:
+//                        moveSokobanLeft();
+                        break;
+                    case RIGHT:
+//                        moveSokobanRight();
+                        break;
+                    case ESCAPE:
+                        if (!pauseMenu.isShowing())
+                            pauseMenu.show();
+                        else
+                            pauseMenu.close();
+                        break;
+                }
+            }
+        });
     }
 
 
@@ -126,6 +168,25 @@ public class Board
         {
             e.printStackTrace();
         }
+    }
+
+
+    private Stage createPauseMenu()
+    {
+        Stage pauseStage = new Stage();
+
+        Scene scene = new Scene(new GamePauseMenu().createContent(pauseStage, boardStage));
+        pauseStage.setScene(scene);
+        pauseStage.initModality(Modality.APPLICATION_MODAL);
+        pauseStage.initStyle(StageStyle.UNDECORATED);
+
+        scene.setOnKeyPressed(event ->
+        {
+            if (event.getCode() == ESCAPE)
+                pauseStage.close();
+        });
+
+        return pauseStage;
     }
 
 
