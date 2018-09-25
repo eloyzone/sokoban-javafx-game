@@ -170,6 +170,8 @@ public class Board
 
     private void moveSokobanUp()
     {
+        sokobanToken.changeImageToUp();
+
         int sokobanRow = sokobanToken.getRow();
         int sokobanColumn = sokobanToken.getColumn();
 
@@ -192,6 +194,8 @@ public class Board
 
     private void moveSokobanDown()
     {
+        sokobanToken.changeImageToDown();
+
         int sokobanRow = sokobanToken.getRow();
         int sokobanColumn = sokobanToken.getColumn();
 
@@ -213,6 +217,8 @@ public class Board
 
     private void moveSokobanLeft()
     {
+        sokobanToken.changeImageToLeft();
+
         int sokobanRow = sokobanToken.getRow();
         int sokobanColumn = sokobanToken.getColumn();
 
@@ -234,6 +240,8 @@ public class Board
 
     private void moveSokobanRight()
     {
+        sokobanToken.changeImageToRight();
+
         int sokobanRow = sokobanToken.getRow();
         int sokobanColumn = sokobanToken.getColumn();
 

@@ -8,11 +8,14 @@ public class SokobanToken extends ImageView
     int row;
     int column;
 
-    private Image image = new Image("/lift-truck.png");
+    private Image imageUp = new Image("/lift-truck-up.png");
+    private Image imageDown = new Image("/lift-truck-down.png");
+    private Image imageLeft = new Image("/lift-truck-left.png");
+    private Image imageRight = new Image("/lift-truck-right.png");
 
     public SokobanToken(int row, int column)
     {
-        setImage(image);
+        setImage(imageUp);
         setFitHeight(30);
         setFitWidth(30);
 
@@ -39,5 +42,25 @@ public class SokobanToken extends ImageView
     public void setColumn(int column)
     {
         this.column = column;
+    }
+
+    public void changeImageToUp()
+    {
+        setImage(imageUp);
+    }
+
+    public void changeImageToDown()
+    {
+        setImage(imageDown);
+    }
+
+    public void changeImageToLeft()
+    {
+        setImage(imageLeft);
+    }
+
+    public void changeImageToRight()
+    {
+        setImage(imageRight);
     }
 }
