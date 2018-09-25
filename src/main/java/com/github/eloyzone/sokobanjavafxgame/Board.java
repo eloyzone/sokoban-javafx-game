@@ -1,6 +1,7 @@
 package com.github.eloyzone.sokobanjavafxgame;
 
 import com.github.eloyzone.sokobanjavafxgame.menu.GamePauseMenu;
+import com.github.eloyzone.sokobanjavafxgame.menu.GameStatusMenu;
 import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
 import com.github.eloyzone.sokobanjavafxgame.tile.AbstractTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.PathTile;
@@ -271,6 +272,7 @@ public class Board
             tile[sokobanColumn + 1].removeBoxToken();
             tile[sokobanColumn + 1].addSokobanToken(sokobanToken);
             tile[sokobanColumn + 2].addBoxToken(boxToken);
+            isSolved();
         }
     }
 
@@ -284,6 +286,7 @@ public class Board
             tile[sokobanColumn - 1].removeBoxToken();
             tile[sokobanColumn - 1].addSokobanToken(sokobanToken);
             tile[sokobanColumn - 2].addBoxToken(boxToken);
+            isSolved();
         }
     }
 
@@ -297,6 +300,7 @@ public class Board
             tiles[sokobanRow + 1][sokobanColumn].removeBoxToken();
             tiles[sokobanRow + 1][sokobanColumn].addSokobanToken(sokobanToken);
             tiles[sokobanRow + 2][sokobanColumn].addBoxToken(boxToken);
+            isSolved();
         }
     }
 
@@ -310,6 +314,33 @@ public class Board
             tiles[sokobanRow - 1][sokobanColumn].removeBoxToken();
             tiles[sokobanRow - 1][sokobanColumn].addSokobanToken(sokobanToken);
             tiles[sokobanRow - 2][sokobanColumn].addBoxToken(boxToken);
+            isSolved();
+        }
+    }
+
+    private void isSolved()
+    {
+        boolean solved = true;
+
+        for (TargetTile targetTile : targetTiles)
+        {
+            if (targetTile.getBoxToken() == null)
+            {
+                solved = false;
+                break;
+            }
+        }
+
+        if (solved)
+        {
+            Stage gameStatusStage = new Stage();
+
+            Scene scene = new Scene(new GameStatusMenu().createContent(gameStatusStage, boardStage));
+
+            gameStatusStage.setScene(scene);
+            gameStatusStage.initModality(Modality.APPLICATION_MODAL);
+            gameStatusStage.initStyle(StageStyle.UNDECORATED);
+            gameStatusStage.show();
         }
     }
 
