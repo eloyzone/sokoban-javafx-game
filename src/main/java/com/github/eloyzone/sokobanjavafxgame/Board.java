@@ -1,12 +1,12 @@
 package com.github.eloyzone.sokobanjavafxgame;
 
 import com.github.eloyzone.sokobanjavafxgame.menu.GamePauseMenu;
+import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
 import com.github.eloyzone.sokobanjavafxgame.tile.AbstractTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.PathTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.TargetTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.WallTile;
 import com.github.eloyzone.sokobanjavafxgame.token.BoxToken;
-import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,7 +30,6 @@ public class Board
     private Stage boardStage;
     private Pane paneRootBoard;
     private Stage pauseMenu;
-
 
     private AbstractTile[][] tiles;
     private SokobanToken sokobanToken;
@@ -67,39 +66,6 @@ public class Board
 
         return boardStage;
     }
-
-    private void createKeyboardHandlers(Scene scene)
-    {
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle(KeyEvent event)
-            {
-                switch (event.getCode())
-                {
-                    case UP:
-//                        moveSokobanUp();
-                        break;
-                    case DOWN:
-//                        moveSokobanDown();
-                        break;
-                    case LEFT:
-//                        moveSokobanLeft();
-                        break;
-                    case RIGHT:
-//                        moveSokobanRight();
-                        break;
-                    case ESCAPE:
-                        if (!pauseMenu.isShowing())
-                            pauseMenu.show();
-                        else
-                            pauseMenu.close();
-                        break;
-                }
-            }
-        });
-    }
-
 
     private void readMap(int levelNumber)
     {
@@ -170,6 +136,174 @@ public class Board
         }
     }
 
+    private void createKeyboardHandlers(Scene scene)
+    {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent event)
+            {
+                switch (event.getCode())
+                {
+                    case UP:
+                        moveSokobanUp();
+                        break;
+                    case DOWN:
+                        moveSokobanDown();
+                        break;
+                    case LEFT:
+                        moveSokobanLeft();
+                        break;
+                    case RIGHT:
+                        moveSokobanRight();
+                        break;
+                    case ESCAPE:
+                        if (!pauseMenu.isShowing())
+                            pauseMenu.show();
+                        else
+                            pauseMenu.close();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void moveSokobanUp()
+    {
+        int sokobanRow = sokobanToken.getRow();
+        int sokobanColumn = sokobanToken.getColumn();
+
+        if (tiles[sokobanRow - 1][sokobanColumn] instanceof WallTile)
+        {
+            System.out.println("can't move");
+        } else if ((tiles[sokobanRow - 1][sokobanColumn] instanceof PathTile) ||
+                (tiles[sokobanRow - 1][sokobanColumn] instanceof TargetTile))
+        {
+            if (!tiles[sokobanRow - 1][sokobanColumn].isTokenOnIt())
+            {
+                tiles[sokobanRow][sokobanColumn].removeSokoban();
+                tiles[sokobanRow - 1][sokobanColumn].addSokobanToken(sokobanToken);
+            } else
+            {
+                moveBoxToUP(sokobanRow, sokobanColumn);
+            }
+        }
+    }
+
+    private void moveSokobanDown()
+    {
+        int sokobanRow = sokobanToken.getRow();
+        int sokobanColumn = sokobanToken.getColumn();
+
+        if (tiles[sokobanRow + 1][sokobanColumn] instanceof WallTile)
+        {
+            System.out.println("can't move");
+        } else if ((tiles[sokobanRow + 1][sokobanColumn] instanceof PathTile) || (tiles[sokobanRow + 1][sokobanColumn] instanceof TargetTile))
+        {
+            if (!tiles[sokobanRow + 1][sokobanColumn].isTokenOnIt())
+            {
+                tiles[sokobanRow][sokobanColumn].removeSokoban();
+                tiles[sokobanRow + 1][sokobanColumn].addSokobanToken(sokobanToken);
+            } else
+            {
+                moveBoxToDown(sokobanRow, sokobanColumn);
+            }
+        }
+    }
+
+    private void moveSokobanLeft()
+    {
+        int sokobanRow = sokobanToken.getRow();
+        int sokobanColumn = sokobanToken.getColumn();
+
+        if (tiles[sokobanRow][sokobanColumn - 1] instanceof WallTile)
+        {
+            System.out.println("can't move");
+        } else if ((tiles[sokobanRow][sokobanColumn - 1] instanceof PathTile) || (tiles[sokobanRow][sokobanColumn - 1] instanceof TargetTile))
+        {
+            if (!tiles[sokobanRow][sokobanColumn - 1].isTokenOnIt())
+            {
+                tiles[sokobanRow][sokobanColumn].removeSokoban();
+                tiles[sokobanRow][sokobanColumn - 1].addSokobanToken(sokobanToken);
+            } else
+            {
+                moveBoxToLeft(tiles[sokobanRow], sokobanColumn);
+            }
+        }
+    }
+
+    private void moveSokobanRight()
+    {
+        int sokobanRow = sokobanToken.getRow();
+        int sokobanColumn = sokobanToken.getColumn();
+
+        if (tiles[sokobanRow][sokobanColumn + 1] instanceof WallTile)
+        {
+            System.out.println("can't move");
+        } else if ((tiles[sokobanRow][sokobanColumn + 1] instanceof PathTile) || (tiles[sokobanRow][sokobanColumn + 1] instanceof TargetTile))
+        {
+            if (!tiles[sokobanRow][sokobanColumn + 1].isTokenOnIt())
+            {
+                tiles[sokobanRow][sokobanColumn].removeSokoban();
+                tiles[sokobanRow][sokobanColumn + 1].addSokobanToken(sokobanToken);
+            } else
+            {
+                moveBoxToRight(tiles[sokobanRow], sokobanColumn);
+            }
+        }
+    }
+
+    private void moveBoxToRight(AbstractTile[] tile, int sokobanColumn)
+    {
+        if ((tile[sokobanColumn + 2] instanceof PathTile && !tile[sokobanColumn + 2].isTokenOnIt())
+                || (tile[sokobanColumn + 2] instanceof TargetTile && !tile[sokobanColumn + 2].isTokenOnIt()))
+        {
+            tile[sokobanColumn].removeSokoban();
+            BoxToken boxToken = tile[sokobanColumn + 1].getBoxToken();
+            tile[sokobanColumn + 1].removeBoxToken();
+            tile[sokobanColumn + 1].addSokobanToken(sokobanToken);
+            tile[sokobanColumn + 2].addBoxToken(boxToken);
+        }
+    }
+
+    private void moveBoxToLeft(AbstractTile[] tile, int sokobanColumn)
+    {
+        if ((tile[sokobanColumn - 2] instanceof PathTile && !tile[sokobanColumn - 2].isTokenOnIt()) ||
+                (tile[sokobanColumn - 2] instanceof TargetTile && !tile[sokobanColumn - 2].isTokenOnIt()))
+        {
+            tile[sokobanColumn].removeSokoban();
+            BoxToken boxToken = tile[sokobanColumn - 1].getBoxToken();
+            tile[sokobanColumn - 1].removeBoxToken();
+            tile[sokobanColumn - 1].addSokobanToken(sokobanToken);
+            tile[sokobanColumn - 2].addBoxToken(boxToken);
+        }
+    }
+
+    private void moveBoxToDown(int sokobanRow, int sokobanColumn)
+    {
+        if ((tiles[sokobanRow + 2][sokobanColumn] instanceof PathTile && !tiles[sokobanRow + 2][sokobanColumn].isTokenOnIt()) ||
+                (tiles[sokobanRow + 2][sokobanColumn] instanceof TargetTile && !tiles[sokobanRow + 2][sokobanColumn].isTokenOnIt()))
+        {
+            tiles[sokobanRow][sokobanColumn].removeSokoban();
+            BoxToken boxToken = tiles[sokobanRow + 1][sokobanColumn].getBoxToken();
+            tiles[sokobanRow + 1][sokobanColumn].removeBoxToken();
+            tiles[sokobanRow + 1][sokobanColumn].addSokobanToken(sokobanToken);
+            tiles[sokobanRow + 2][sokobanColumn].addBoxToken(boxToken);
+        }
+    }
+
+    private void moveBoxToUP(int sokobanRow, int sokobanColumn)
+    {
+        if ((tiles[sokobanRow - 2][sokobanColumn] instanceof PathTile && !tiles[sokobanRow - 2][sokobanColumn].isTokenOnIt())
+                || (tiles[sokobanRow - 2][sokobanColumn] instanceof TargetTile && !tiles[sokobanRow - 2][sokobanColumn].isTokenOnIt()))
+        {
+            tiles[sokobanRow][sokobanColumn].removeSokoban();
+            BoxToken boxToken = tiles[sokobanRow - 1][sokobanColumn].getBoxToken();
+            tiles[sokobanRow - 1][sokobanColumn].removeBoxToken();
+            tiles[sokobanRow - 1][sokobanColumn].addSokobanToken(sokobanToken);
+            tiles[sokobanRow - 2][sokobanColumn].addBoxToken(boxToken);
+        }
+    }
 
     private Stage createPauseMenu()
     {
@@ -188,6 +322,4 @@ public class Board
 
         return pauseStage;
     }
-
-
 }
