@@ -3,6 +3,7 @@ package com.github.eloyzone.sokobanjavafxgame.tile;
 import com.github.eloyzone.sokobanjavafxgame.Board;
 import com.github.eloyzone.sokobanjavafxgame.GameEvent;
 import com.github.eloyzone.sokobanjavafxgame.menu.MenuLevelSelector;
+import com.github.eloyzone.sokobanjavafxgame.util.Fade;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -44,6 +45,8 @@ public class LevelTile extends StackPane
             boardStage.close();
             MenuLevelSelector.menuLevelSelectorStage.show();
         });
+
+        Fade.fadeInTransitionForScene(boardStage);
 
         boardStage.show();
 

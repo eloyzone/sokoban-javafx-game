@@ -1,6 +1,6 @@
 package com.github.eloyzone.sokobanjavafxgame.token;
 
-import javafx.scene.image.Image;
+import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import javafx.scene.image.ImageView;
 
 public class BoxToken extends ImageView
@@ -10,7 +10,7 @@ public class BoxToken extends ImageView
 
     public BoxToken(int row, int column)
     {
-        setImage(new Image("/box.png"));
+        setImage(ImageLoader.getImageBox());
         setFitHeight(30);
         setFitWidth(30);
 

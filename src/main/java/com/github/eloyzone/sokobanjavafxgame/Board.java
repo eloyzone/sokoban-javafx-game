@@ -8,6 +8,7 @@ import com.github.eloyzone.sokobanjavafxgame.tile.PathTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.TargetTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.WallTile;
 import com.github.eloyzone.sokobanjavafxgame.token.BoxToken;
+import com.github.eloyzone.sokobanjavafxgame.util.Fade;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -340,6 +341,7 @@ public class Board
             gameStatusStage.setScene(scene);
             gameStatusStage.initModality(Modality.APPLICATION_MODAL);
             gameStatusStage.initStyle(StageStyle.UNDECORATED);
+            Fade.fadeInTransitionForScene(gameStatusStage);
             gameStatusStage.show();
         }
     }

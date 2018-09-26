@@ -1,8 +1,8 @@
 package com.github.eloyzone.sokobanjavafxgame.menu;
 
+import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
@@ -14,9 +14,7 @@ public class MainMenu
 
         root.setPrefSize(1050, 600);
 
-        Image imageBrickWallMainMenu = new Image("/brick-wall-main-menu.png");
-
-        ImageView imageView = new ImageView(imageBrickWallMainMenu);
+        ImageView imageView = new ImageView(ImageLoader.getImageBrickWallMainMenu());
         imageView.setFitWidth(root.getPrefWidth());
         imageView.setFitHeight(root.getPrefHeight());
         root.getChildren().add(imageView);

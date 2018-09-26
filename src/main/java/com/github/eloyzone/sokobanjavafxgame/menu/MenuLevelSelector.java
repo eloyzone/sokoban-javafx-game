@@ -2,10 +2,11 @@ package com.github.eloyzone.sokobanjavafxgame.menu;
 
 import com.github.eloyzone.sokobanjavafxgame.Main;
 import com.github.eloyzone.sokobanjavafxgame.tile.LevelTile;
+import com.github.eloyzone.sokobanjavafxgame.util.Fade;
+import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -25,7 +26,7 @@ public class MenuLevelSelector
         StackPane stackPane = new StackPane();
         stackPane.setPrefSize(1050, 600);
 
-        ImageView imageView = new ImageView(new Image("/brick-wall.png"));
+        ImageView imageView = new ImageView(ImageLoader.getImageBrickWall());
         imageView.setFitWidth(stackPane.getPrefWidth());
         imageView.setFitHeight(stackPane.getPrefHeight());
 
@@ -72,6 +73,7 @@ public class MenuLevelSelector
         menuLevelSelectorStage = new Stage();
         menuLevelSelectorStage.initStyle(StageStyle.UNDECORATED);
         menuLevelSelectorStage.setScene(scene);
+        Fade.fadeInTransitionForScene(menuLevelSelectorStage);
         menuLevelSelectorStage.show();
     }
 

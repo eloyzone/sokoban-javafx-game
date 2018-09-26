@@ -1,8 +1,8 @@
 package com.github.eloyzone.sokobanjavafxgame.menu;
 
+import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -15,7 +15,7 @@ public class GamePauseMenu
 
         root.setPrefSize(1050, 600);
 
-        ImageView imageView = new ImageView(new Image("/brick-wall.png"));
+        ImageView imageView = new ImageView(ImageLoader.getImageBrickWall());
         imageView.setFitWidth(root.getPrefWidth());
         imageView.setFitHeight(root.getPrefHeight());
         root.getChildren().add(imageView);

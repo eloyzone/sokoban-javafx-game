@@ -2,7 +2,7 @@ package com.github.eloyzone.sokobanjavafxgame.tile;
 
 import com.github.eloyzone.sokobanjavafxgame.token.BoxToken;
 import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
-import javafx.scene.image.Image;
+import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import javafx.scene.image.ImageView;
 
 public class WallTile extends AbstractTile
@@ -11,7 +11,7 @@ public class WallTile extends AbstractTile
     {
         super(row, column, translateX, translateY);
 
-        imageView = new ImageView(new Image("/brick-wall-smaller.png"));
+        imageView = new ImageView(ImageLoader.getImageBrickWallSmall());
         imageView.setFitHeight(49.5);
         imageView.setFitWidth(49.5);
 
