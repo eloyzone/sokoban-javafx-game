@@ -25,6 +25,7 @@ public class GamePauseMenu
 
         MenuVBox vBoxMenuBox = new MenuVBox(
                 new MenuItemResume(pauseStage),
+                new MenuItemRestartLevel(boardStage, pauseStage),
                 new MenuItemEndGame(boardStage, pauseStage));
 
         vBoxMenuBox.setAlignment(Pos.CENTER);

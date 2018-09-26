@@ -46,6 +46,12 @@ public class LevelTile extends StackPane
             MenuLevelSelector.menuLevelSelectorStage.show();
         });
 
+        boardStage.addEventFilter(GameEvent.RESTART_LEVEL, event ->
+        {
+            boardStage.close();
+            createAndShowBoardStage();
+        });
+
         Fade.fadeInTransitionForScene(boardStage);
 
         boardStage.show();
