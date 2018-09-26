@@ -23,6 +23,8 @@ public class MenuLevelSelector
 
     public void createStageAndShow()
     {
+        int numberOfMaps = 17;
+
         StackPane stackPane = new StackPane();
         stackPane.setPrefSize(1050, 600);
 
@@ -38,10 +40,7 @@ public class MenuLevelSelector
 
         Button backButtonToMainMenu = new Button("<-");
         backButtonToMainMenu.setId("back-button-black");
-
-
-        // todo: add levels
-
+        
         Pane paneLevelTilesContainer = new Pane();
 
         LevelTile[][] levelTiles = new LevelTile[MAX_ROW_COUNT][MAX_COLUMN_COUNT];
@@ -50,10 +49,14 @@ public class MenuLevelSelector
         {
             for (int j = 0; j < MAX_COLUMN_COUNT; j++)
             {
+                if (numberOfMaps == 0)
+                    break;
+
                 int levelNumber = ((i) * MAX_COLUMN_COUNT) + j + 1;
 
                 levelTiles[i][j] = new LevelTile(String.valueOf(levelNumber), (100 + 10) * j + 30, (100 + 10) * i);
                 paneLevelTilesContainer.getChildren().addAll(levelTiles[i][j]);
+                numberOfMaps--;
             }
         }
 
