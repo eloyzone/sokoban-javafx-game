@@ -2,11 +2,12 @@ package com.github.eloyzone.sokobanjavafxgame.tile;
 
 import com.github.eloyzone.sokobanjavafxgame.token.BoxToken;
 import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class PathTile extends AbstractTile
 {
-    private Text text = new Text(".");
+    private Text text;
 
     private SokobanToken sokobanToken = null;
     private BoxToken boxToken = null;
@@ -16,6 +17,7 @@ public class PathTile extends AbstractTile
         super(row, column, translateX, translateY);
         this.sokobanToken = sokobanToken;
         setTokenOnIt(true);
+        createText();
         getChildren().addAll(text, sokobanToken);
     }
 
@@ -24,17 +26,22 @@ public class PathTile extends AbstractTile
         super(row, column, translateX, translateY);
         this.boxToken = boxToken;
         setTokenOnIt(true);
-
+        createText();
         getChildren().addAll(text, boxToken);
     }
 
     public PathTile(int row, int column, double translateX, double translateY)
     {
         super(row, column, translateX, translateY);
-        text.setText(".");
+        createText();
         getChildren().addAll(text);
     }
 
+    private void createText()
+    {
+        text = new Text(".");
+        text.setFill(Color.WHITE);
+    }
 
     public boolean removeSokoban()
     {

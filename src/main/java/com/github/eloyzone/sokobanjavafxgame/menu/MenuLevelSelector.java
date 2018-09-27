@@ -40,7 +40,7 @@ public class MenuLevelSelector
 
         Button backButtonToMainMenu = new Button("<-");
         backButtonToMainMenu.setId("back-button-black");
-        
+
         Pane paneLevelTilesContainer = new Pane();
 
         LevelTile[][] levelTiles = new LevelTile[MAX_ROW_COUNT][MAX_COLUMN_COUNT];

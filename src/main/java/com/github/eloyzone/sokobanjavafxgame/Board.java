@@ -9,14 +9,17 @@ import com.github.eloyzone.sokobanjavafxgame.tile.TargetTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.WallTile;
 import com.github.eloyzone.sokobanjavafxgame.token.BoxToken;
 import com.github.eloyzone.sokobanjavafxgame.util.Fade;
+import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -49,6 +52,15 @@ public class Board
     {
         boardStage = new Stage();
 
+        StackPane stackPane = new StackPane();
+
+        ImageView imageViewBackground = new ImageView(ImageLoader.getImageWarehouse());
+        imageViewBackground.setFitHeight(600);
+        imageViewBackground.setFitWidth(1050);
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setBrightness(-0.6);
+        imageViewBackground.setEffect(colorAdjust);
+
         HBox hBox = new HBox();
         VBox vBox = new VBox();
 
@@ -58,9 +70,10 @@ public class Board
 
         vBox.getChildren().addAll(paneRootBoard);
         hBox.getChildren().addAll(vBox);
+        stackPane.getChildren().addAll(imageViewBackground, hBox);
 
         pauseMenu = createPauseMenu();
-        Scene scene = new Scene(hBox, Color.LIGHTGRAY);
+        Scene scene = new Scene(stackPane);
 
         createKeyboardHandlers(scene);
         boardStage.setScene(scene);
