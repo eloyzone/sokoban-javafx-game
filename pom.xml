@@ -33,6 +33,17 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <!--provides a way to assemble distribution bundles for JavaFX applications (8+ and 9+) from within Maven.-->
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.8.3</version>
+                <configuration>
+                    <mainClass>com.github.eloyzone.sokobanjavafxgame.Main</mainClass>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
