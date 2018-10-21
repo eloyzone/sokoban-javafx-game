@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 
 public class GameStatusMenu
 {
-    public Parent createContent(Stage pauseStage, Stage boardStage)
+    public Parent createContent(StackPane boardStakePane)
     {
         StackPane root = new StackPane();
 
-        root.setPrefSize(1050-600, 600-200);
+        root.setPrefSize(1050 - 600, 600 - 200);
 
         ImageView imageView = new ImageView(ImageLoader.getImageBrickWall());
         imageView.setFitWidth(root.getPrefWidth());
@@ -24,7 +24,7 @@ public class GameStatusMenu
         title.setTranslateY(-100);
 
         MenuVBox vBoxMenuBox = new MenuVBox(
-                new MenuItemEndGame(boardStage, pauseStage)
+                new MenuItemEndGame(boardStakePane)
         );
 
         vBoxMenuBox.setAlignment(Pos.CENTER);

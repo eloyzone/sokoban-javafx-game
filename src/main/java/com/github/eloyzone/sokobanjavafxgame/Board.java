@@ -8,11 +8,10 @@ import com.github.eloyzone.sokobanjavafxgame.tile.PathTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.TargetTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.WallTile;
 import com.github.eloyzone.sokobanjavafxgame.token.BoxToken;
-import com.github.eloyzone.sokobanjavafxgame.util.Fade;
 import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -20,24 +19,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import static javafx.scene.input.KeyCode.ESCAPE;
 
 public class Board
 {
-    private Stage boardStage;
+    private StackPane stackPaneBoard;
     private Pane paneRootBoard;
-    private Stage pauseMenu;
-
     private AbstractTile[][] tiles;
     private SokobanToken sokobanToken;
+
+    private Parent nodePauseMenu = null;
+    private static Boolean pauseMenuShown = false;
 
     private ArrayList<TargetTile> targetTiles = new ArrayList<>();
     private ArrayList<BoxToken> boxTokens = new ArrayList<>();
@@ -48,11 +44,11 @@ public class Board
         readMap(levelNumber);
     }
 
-    public Stage getScene()
+    public StackPane getScene()
     {
-        boardStage = new Stage();
+        pauseMenuShown = false;
 
-        StackPane stackPane = new StackPane();
+        stackPaneBoard = new StackPane();
 
         ImageView imageViewBackground = new ImageView(ImageLoader.getImageWarehouse());
         imageViewBackground.setFitHeight(600);
@@ -70,16 +66,13 @@ public class Board
 
         vBox.getChildren().addAll(paneRootBoard);
         hBox.getChildren().addAll(vBox);
-        stackPane.getChildren().addAll(imageViewBackground, hBox);
+        stackPaneBoard.getChildren().addAll(imageViewBackground, hBox);
 
-        pauseMenu = createPauseMenu();
-        Scene scene = new Scene(stackPane);
+        stackPaneBoard.setFocusTraversable(true);
 
-        createKeyboardHandlers(scene);
-        boardStage.setScene(scene);
-        boardStage.initStyle(StageStyle.UNDECORATED);
+        createKeyboardHandlers(stackPaneBoard);
 
-        return boardStage;
+        return stackPaneBoard;
     }
 
     private void readMap(int levelNumber)
@@ -151,13 +144,14 @@ public class Board
         }
     }
 
-    private void createKeyboardHandlers(Scene scene)
+    private void createKeyboardHandlers(StackPane scene)
     {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
             @Override
             public void handle(KeyEvent event)
             {
+                System.out.println("here");
                 switch (event.getCode())
                 {
                     case UP:
@@ -173,10 +167,13 @@ public class Board
                         moveSokobanRight();
                         break;
                     case ESCAPE:
-                        if (!pauseMenu.isShowing())
-                            pauseMenu.show();
+                        if (pauseMenuShown == false)
+                            showPauseMenu();
                         else
-                            pauseMenu.close();
+                        {
+                            stackPaneBoard.getChildren().remove(stackPaneBoard.getChildren().size() - 1);
+                            pauseMenuShown = false;
+                        }
                         break;
                 }
             }
@@ -347,33 +344,25 @@ public class Board
 
         if (solved)
         {
-            Stage gameStatusStage = new Stage();
-
-            Scene scene = new Scene(new GameStatusMenu().createContent(gameStatusStage, boardStage));
-
-            gameStatusStage.setScene(scene);
-            gameStatusStage.initModality(Modality.APPLICATION_MODAL);
-            gameStatusStage.initStyle(StageStyle.UNDECORATED);
-            Fade.fadeInTransitionForScene(gameStatusStage);
-            gameStatusStage.show();
+            Parent parent = new GameStatusMenu().createContent(stackPaneBoard);
+            stackPaneBoard.getChildren().add(parent);
         }
     }
 
-    private Stage createPauseMenu()
+    private void showPauseMenu()
     {
-        Stage pauseStage = new Stage();
+        pauseMenuShown = true;
+        nodePauseMenu = new GamePauseMenu().createContent(stackPaneBoard);
+        stackPaneBoard.getChildren().add(nodePauseMenu);
+    }
 
-        Scene scene = new Scene(new GamePauseMenu().createContent(pauseStage, boardStage));
-        pauseStage.setScene(scene);
-        pauseStage.initModality(Modality.APPLICATION_MODAL);
-        pauseStage.initStyle(StageStyle.UNDECORATED);
+    public static void setPauseMenuFalse()
+    {
+        pauseMenuShown = false;
+    }
 
-        scene.setOnKeyPressed(event ->
-        {
-            if (event.getCode() == ESCAPE)
-                pauseStage.close();
-        });
-
-        return pauseStage;
+    public static boolean getPauseMenuStatus()
+    {
+        return pauseMenuShown;
     }
 }

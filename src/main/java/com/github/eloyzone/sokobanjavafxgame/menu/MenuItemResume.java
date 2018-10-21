@@ -1,12 +1,17 @@
 package com.github.eloyzone.sokobanjavafxgame.menu;
 
-import javafx.stage.Stage;
+import com.github.eloyzone.sokobanjavafxgame.Board;
+import javafx.scene.layout.StackPane;
 
 class MenuItemResume extends MenuItem
 {
-    public MenuItemResume(Stage pauseStage)
+    public MenuItemResume(StackPane boardStackPane)
     {
         setMenuItemName("Resume");
-        setOnMouseClicked(event -> pauseStage.close());
+        setOnMouseClicked(event ->
+        {
+            Board.setPauseMenuFalse();
+            boardStackPane.getChildren().remove(boardStackPane.getChildren().size()-1);
+        });
     }
 }

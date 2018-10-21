@@ -1,18 +1,17 @@
 package com.github.eloyzone.sokobanjavafxgame.menu;
 
 import com.github.eloyzone.sokobanjavafxgame.GameEvent;
-import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 
 class MenuItemRestartLevel extends MenuItem
 {
-    public MenuItemRestartLevel(Stage boardStage, Stage pauseStage)
+    public MenuItemRestartLevel(StackPane boardStackPane)
     {
         setMenuItemName("Restart Level");
 
         setOnMouseClicked(event ->
         {
-            boardStage.fireEvent(new GameEvent(GameEvent.RESTART_LEVEL));
-            pauseStage.close();
+            boardStackPane.fireEvent(new GameEvent(GameEvent.RESTART_LEVEL));
         });
     }
 }

@@ -5,34 +5,30 @@ import com.github.eloyzone.sokobanjavafxgame.tile.LevelTile;
 import com.github.eloyzone.sokobanjavafxgame.util.Fade;
 import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class MenuLevelSelector
 {
-    public static Stage menuLevelSelectorStage;
     private static int MAX_ROW_COUNT = 3;
     private static int MAX_COLUMN_COUNT = 9;
 
-    public void createStageAndShow()
+    public StackPane createLevelSelectorStackPane()
     {
         int numberOfMaps = 17;
 
-        StackPane stackPane = new StackPane();
-        stackPane.setPrefSize(1050, 600);
+        StackPane stackPaneLevelSelector = new StackPane();
+        stackPaneLevelSelector.setPrefSize(1050, 600);
 
-        ImageView imageView = new ImageView(ImageLoader.getImageBrickWall());
-        imageView.setFitWidth(stackPane.getPrefWidth());
-        imageView.setFitHeight(stackPane.getPrefHeight());
+        ImageView imageViewBackground = new ImageView(ImageLoader.getImageBrickWall());
+        imageViewBackground.setFitWidth(stackPaneLevelSelector.getPrefWidth());
+        imageViewBackground.setFitHeight(stackPaneLevelSelector.getPrefHeight());
 
-        stackPane.getChildren().add(imageView);
+        stackPaneLevelSelector.getChildren().add(imageViewBackground);
 
         VBox vBox = new VBox();
 
@@ -68,21 +64,16 @@ public class MenuLevelSelector
         backButtonToMainMenu.setOnAction(e -> backToMainMenu());
 
         vBox.getChildren().addAll(menuTitle, paneLevelTilesContainer, backButtonToMainMenu);
-        stackPane.getChildren().addAll(vBox);
+        stackPaneLevelSelector.getChildren().addAll(vBox);
 
-        Scene scene = new Scene(stackPane);
-        scene.getStylesheets().add(getClass().getResource("/menu_level_selector_menu.css").toExternalForm());
+        Fade.fadeInTransitionForScene(stackPaneLevelSelector);
 
-        menuLevelSelectorStage = new Stage();
-        menuLevelSelectorStage.initStyle(StageStyle.UNDECORATED);
-        menuLevelSelectorStage.setScene(scene);
-        Fade.fadeInTransitionForScene(menuLevelSelectorStage);
-        menuLevelSelectorStage.show();
+        return stackPaneLevelSelector;
     }
 
     private void backToMainMenu()
     {
-        menuLevelSelectorStage.close();
-        Main.mainStage.show();
+        StackPane stackPane = (StackPane) Main.mainStage.getScene().getRoot();
+        stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
     }
 }

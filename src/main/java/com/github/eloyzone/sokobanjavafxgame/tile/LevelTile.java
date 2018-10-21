@@ -2,12 +2,12 @@ package com.github.eloyzone.sokobanjavafxgame.tile;
 
 import com.github.eloyzone.sokobanjavafxgame.Board;
 import com.github.eloyzone.sokobanjavafxgame.GameEvent;
+import com.github.eloyzone.sokobanjavafxgame.Main;
 import com.github.eloyzone.sokobanjavafxgame.menu.MenuLevelSelector;
 import com.github.eloyzone.sokobanjavafxgame.util.Fade;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class LevelTile extends StackPane
 {
@@ -35,27 +35,27 @@ public class LevelTile extends StackPane
         getChildren().addAll(button);
     }
 
-    private Stage createAndShowBoardStage()
+    private void createAndShowBoardStage()
     {
-        Stage boardStage = new Board(levelNumber).getScene();
-        boardStage.setOnShowing(e1 -> MenuLevelSelector.menuLevelSelectorStage.hide());
+        StackPane boardStackPane = new Board(levelNumber).getScene();
 
-        boardStage.addEventFilter(GameEvent.END_GAME_LEVEL, event ->
+        boardStackPane.addEventFilter(GameEvent.END_GAME_LEVEL, event ->
         {
-            boardStage.close();
-            MenuLevelSelector.menuLevelSelectorStage.show();
+            StackPane stackPane = (StackPane) Main.mainStage.getScene().getRoot();
+            stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
+            stackPane.getChildren().add(new MenuLevelSelector().createLevelSelectorStackPane());
         });
 
-        boardStage.addEventFilter(GameEvent.RESTART_LEVEL, event ->
+        boardStackPane.addEventFilter(GameEvent.RESTART_LEVEL, event ->
         {
-            boardStage.close();
             createAndShowBoardStage();
         });
 
-        Fade.fadeInTransitionForScene(boardStage);
+        Fade.fadeInTransitionForScene(boardStackPane);
 
-        boardStage.show();
+        StackPane stackPane = (StackPane) Main.mainStage.getScene().getRoot();
+        stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
+        stackPane.getChildren().add(boardStackPane);
 
-        return boardStage;
     }
 }

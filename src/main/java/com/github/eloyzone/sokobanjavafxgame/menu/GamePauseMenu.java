@@ -5,11 +5,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class GamePauseMenu
 {
-    public Parent createContent(Stage pauseStage, Stage boardStage)
+    public Parent createContent(StackPane boardStackPane)
     {
         StackPane root = new StackPane();
 
@@ -24,13 +23,15 @@ public class GamePauseMenu
         title.setTranslateY(-200);
 
         MenuVBox vBoxMenuBox = new MenuVBox(
-                new MenuItemResume(pauseStage),
-                new MenuItemRestartLevel(boardStage, pauseStage),
-                new MenuItemEndGame(boardStage, pauseStage));
+                new MenuItemResume(boardStackPane),
+                new MenuItemRestartLevel(boardStackPane),
+                new MenuItemEndGame(boardStackPane)
+        );
 
         vBoxMenuBox.setAlignment(Pos.CENTER);
 
         root.getChildren().addAll(title, vBoxMenuBox);
+
 
         return root;
     }

@@ -13,7 +13,11 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        primaryStage.setScene(new Scene(new MainMenu().createContent()));
+        Scene scene = new Scene(new MainMenu().createContent());
+        scene.getStylesheets().add(getClass().getResource("/menu_level_selector_menu.css").toExternalForm());
+        primaryStage.setScene(scene);
+
+
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
         mainStage = primaryStage;

@@ -1,6 +1,7 @@
 package com.github.eloyzone.sokobanjavafxgame.menu;
 
 import com.github.eloyzone.sokobanjavafxgame.Main;
+import javafx.scene.layout.StackPane;
 
 class MenuItemPlay extends MenuItem
 {
@@ -10,8 +11,8 @@ class MenuItemPlay extends MenuItem
 
         setOnMouseClicked(event ->
         {
-            new MenuLevelSelector().createStageAndShow();
-            Main.mainStage.hide();
+            StackPane stackPane = (StackPane) Main.mainStage.getScene().getRoot();
+            stackPane.getChildren().add(new MenuLevelSelector().createLevelSelectorStackPane());
         });
     }
 }
