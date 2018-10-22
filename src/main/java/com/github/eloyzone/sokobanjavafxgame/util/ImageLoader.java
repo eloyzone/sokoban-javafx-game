@@ -10,6 +10,7 @@ public class ImageLoader
     private static  Image imageBox = new Image("/box.png");
     private static  Image imageTarget = new Image("/target.png");
     private static  Image imageWarehouse = new Image("/warehouse.jpg");
+    private static  Image imageLock = new Image("/lock.png");
 
     public static Image getImageBrickWallMainMenu()
     {
@@ -39,5 +40,10 @@ public class ImageLoader
     public static Image getImageWarehouse()
     {
         return imageWarehouse;
+    }
+
+    public static Image getImageLock()
+    {
+        return imageLock;
     }
 }

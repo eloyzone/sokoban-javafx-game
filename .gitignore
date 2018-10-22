@@ -32,3 +32,6 @@ hs_err_pid*
 # OSX Specific files
 .DS_Store
 
+# save-file of sokoban game
+sokoban.eloyz
+.eloyz

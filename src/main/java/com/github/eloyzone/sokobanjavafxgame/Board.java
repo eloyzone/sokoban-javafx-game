@@ -2,13 +2,14 @@ package com.github.eloyzone.sokobanjavafxgame;
 
 import com.github.eloyzone.sokobanjavafxgame.menu.GamePauseMenu;
 import com.github.eloyzone.sokobanjavafxgame.menu.GameStatusMenu;
-import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
 import com.github.eloyzone.sokobanjavafxgame.tile.AbstractTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.PathTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.TargetTile;
 import com.github.eloyzone.sokobanjavafxgame.tile.WallTile;
 import com.github.eloyzone.sokobanjavafxgame.token.BoxToken;
+import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
 import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
+import com.github.eloyzone.sokobanjavafxgame.util.PlayerInfoWriterReader;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -31,6 +32,7 @@ public class Board
     private Pane paneRootBoard;
     private AbstractTile[][] tiles;
     private SokobanToken sokobanToken;
+    private int levelNumber;
 
     private Parent nodePauseMenu = null;
     private static Boolean pauseMenuShown = false;
@@ -41,7 +43,8 @@ public class Board
 
     public Board(int levelNumber)
     {
-        readMap(levelNumber);
+        this.levelNumber = levelNumber;
+        readMap(this.levelNumber);
     }
 
     public StackPane getScene()
@@ -346,6 +349,9 @@ public class Board
         {
             Parent parent = new GameStatusMenu().createContent(stackPaneBoard);
             stackPaneBoard.getChildren().add(parent);
+
+            if (Main.getPlayerInfo().grantLastPassedLevel(levelNumber))
+                new PlayerInfoWriterReader().write(Main.getPlayerInfo());
         }
     }
 

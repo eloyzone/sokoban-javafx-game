@@ -5,8 +5,10 @@ import com.github.eloyzone.sokobanjavafxgame.GameEvent;
 import com.github.eloyzone.sokobanjavafxgame.Main;
 import com.github.eloyzone.sokobanjavafxgame.menu.MenuLevelSelector;
 import com.github.eloyzone.sokobanjavafxgame.util.Fade;
+import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 public class LevelTile extends StackPane
@@ -29,8 +31,18 @@ public class LevelTile extends StackPane
         button.setPrefHeight(100);
         button.setPrefWidth(100);
         button.setId("tile-level-dark-blue");
-        button.setText(value);
-        button.setOnAction(e -> createAndShowBoardStage());
+
+        if (levelNumber - 1 > Main.getPlayerInfo().getLastPassedLevel())
+        {
+            ImageView imageViewLockedLevel = new ImageView(ImageLoader.getImageLock());
+            imageViewLockedLevel.setFitHeight(20);
+            imageViewLockedLevel.setFitWidth(20);
+            button.setGraphic(imageViewLockedLevel);
+        } else
+        {
+            button.setText(value);
+            button.setOnAction(e -> createAndShowBoardStage());
+        }
 
         getChildren().addAll(button);
     }
