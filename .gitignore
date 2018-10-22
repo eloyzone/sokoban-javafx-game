@@ -33,5 +33,4 @@ hs_err_pid*
 .DS_Store
 
 # save-file of sokoban game
-sokoban.eloyz
-.eloyz
+*.eloyz
