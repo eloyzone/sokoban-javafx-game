@@ -7,7 +7,7 @@ public class ImageLoader
     private static  Image imageBrickWallMainMenu = new Image("/brick-wall-main-menu.png");
     private static  Image imageBrickWall = new Image("/brick-wall.png");
     private static  Image imageBrickWallSmall = new Image("/brick-wall-smaller.png");
-    private static  Image imageBox = new Image("/box.png");
+    private static  Image imageBox = new Image("/box.jpg");
     private static  Image imageTarget = new Image("/target.png");
     private static  Image imageWarehouse = new Image("/warehouse.jpg");
     private static  Image imageLock = new Image("/lock.png");
