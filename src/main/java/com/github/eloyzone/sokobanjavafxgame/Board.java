@@ -10,6 +10,7 @@ import com.github.eloyzone.sokobanjavafxgame.token.BoxToken;
 import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
 import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import com.github.eloyzone.sokobanjavafxgame.util.PlayerInfoWriterReader;
+import com.github.eloyzone.sokobanjavafxgame.util.SoundLoader;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -20,7 +21,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -193,6 +193,7 @@ public class Board
         if (tiles[sokobanRow - 1][sokobanColumn] instanceof WallTile)
         {
             System.out.println("can't move");
+            SoundLoader.playCrashSound();
         } else if ((tiles[sokobanRow - 1][sokobanColumn] instanceof PathTile) ||
                 (tiles[sokobanRow - 1][sokobanColumn] instanceof TargetTile))
         {
@@ -217,6 +218,7 @@ public class Board
         if (tiles[sokobanRow + 1][sokobanColumn] instanceof WallTile)
         {
             System.out.println("can't move");
+            SoundLoader.playCrashSound();
         } else if ((tiles[sokobanRow + 1][sokobanColumn] instanceof PathTile) || (tiles[sokobanRow + 1][sokobanColumn] instanceof TargetTile))
         {
             if (!tiles[sokobanRow + 1][sokobanColumn].isTokenOnIt())
@@ -240,6 +242,7 @@ public class Board
         if (tiles[sokobanRow][sokobanColumn - 1] instanceof WallTile)
         {
             System.out.println("can't move");
+            SoundLoader.playCrashSound();
         } else if ((tiles[sokobanRow][sokobanColumn - 1] instanceof PathTile) || (tiles[sokobanRow][sokobanColumn - 1] instanceof TargetTile))
         {
             if (!tiles[sokobanRow][sokobanColumn - 1].isTokenOnIt())
@@ -263,6 +266,7 @@ public class Board
         if (tiles[sokobanRow][sokobanColumn + 1] instanceof WallTile)
         {
             System.out.println("can't move");
+            SoundLoader.playCrashSound();
         } else if ((tiles[sokobanRow][sokobanColumn + 1] instanceof PathTile) || (tiles[sokobanRow][sokobanColumn + 1] instanceof TargetTile))
         {
             if (!tiles[sokobanRow][sokobanColumn + 1].isTokenOnIt())
@@ -288,6 +292,10 @@ public class Board
             tile[sokobanColumn + 2].addBoxToken(boxToken);
             isSolved();
         }
+        else
+        {
+            SoundLoader.playCrashSound();
+        }
     }
 
     private void moveBoxToLeft(AbstractTile[] tile, int sokobanColumn)
@@ -301,6 +309,10 @@ public class Board
             tile[sokobanColumn - 1].addSokobanToken(sokobanToken);
             tile[sokobanColumn - 2].addBoxToken(boxToken);
             isSolved();
+        }
+        else
+        {
+            SoundLoader.playCrashSound();
         }
     }
 
@@ -316,6 +328,10 @@ public class Board
             tiles[sokobanRow + 2][sokobanColumn].addBoxToken(boxToken);
             isSolved();
         }
+        else
+        {
+            SoundLoader.playCrashSound();
+        }
     }
 
     private void moveBoxToUP(int sokobanRow, int sokobanColumn)
@@ -329,6 +345,10 @@ public class Board
             tiles[sokobanRow - 1][sokobanColumn].addSokobanToken(sokobanToken);
             tiles[sokobanRow - 2][sokobanColumn].addBoxToken(boxToken);
             isSolved();
+        }
+        else
+        {
+            SoundLoader.playCrashSound();
         }
     }
 
