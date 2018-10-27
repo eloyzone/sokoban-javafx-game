@@ -49,7 +49,8 @@ public class LevelTile extends StackPane
 
     private void createAndShowBoardStage()
     {
-        StackPane boardStackPane = new Board(levelNumber).getScene();
+        Board boardGame = new Board(levelNumber);
+        StackPane boardStackPane = boardGame.getScene();
 
         boardStackPane.addEventFilter(GameEvent.END_GAME_LEVEL, event ->
         {
@@ -68,6 +69,6 @@ public class LevelTile extends StackPane
         StackPane stackPane = (StackPane) Main.mainStage.getScene().getRoot();
         stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
         stackPane.getChildren().add(boardStackPane);
-
+        boardGame.startTimer();
     }
 }

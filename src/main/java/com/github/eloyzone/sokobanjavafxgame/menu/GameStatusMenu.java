@@ -5,21 +5,42 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class GameStatusMenu
 {
-    public Parent createContent(StackPane boardStakePane)
-    {
-        StackPane root = new StackPane();
+    private StackPane rootStackPane;
 
-        root.setPrefSize(1050 - 600, 600 - 200);
+    public GameStatusMenu()
+    {
+        rootStackPane = new StackPane();
+        rootStackPane.setPrefSize(1050 - 600, 600 - 200);
 
         ImageView imageView = new ImageView(ImageLoader.getImageBrickWall());
-        imageView.setFitWidth(root.getPrefWidth());
-        imageView.setFitHeight(root.getPrefHeight());
-        root.getChildren().add(imageView);
+        imageView.setFitWidth(rootStackPane.getPrefWidth());
+        imageView.setFitHeight(rootStackPane.getPrefHeight());
+        rootStackPane.getChildren().add(imageView);
+    }
 
+    public Parent createLoseMenu(StackPane boardStakePane)
+    {
+        Title title = new Title("YOU LOSE!");
+        title.setTranslateY(-100);
+
+        MenuVBox vBoxMenuBox = new MenuVBox(
+                new MenuItemRestartLevel(boardStakePane),
+                new MenuItemEndGame(boardStakePane)
+        );
+
+        vBoxMenuBox.setAlignment(Pos.CENTER);
+
+        rootStackPane.getChildren().addAll(title, vBoxMenuBox);
+
+        return rootStackPane;
+    }
+
+
+    public Parent createVictoryMenu(StackPane boardStakePane)
+    {
         Title title = new Title("VICTORY");
         title.setTranslateY(-100);
 
@@ -29,8 +50,9 @@ public class GameStatusMenu
 
         vBoxMenuBox.setAlignment(Pos.CENTER);
 
-        root.getChildren().addAll(title, vBoxMenuBox);
+        rootStackPane.getChildren().addAll(title, vBoxMenuBox);
 
-        return root;
+        return rootStackPane;
     }
+
 }

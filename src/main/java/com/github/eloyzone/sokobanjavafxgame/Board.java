@@ -11,7 +11,11 @@ import com.github.eloyzone.sokobanjavafxgame.token.SokobanToken;
 import com.github.eloyzone.sokobanjavafxgame.util.ImageLoader;
 import com.github.eloyzone.sokobanjavafxgame.util.PlayerInfoWriterReader;
 import com.github.eloyzone.sokobanjavafxgame.util.SoundLoader;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.effect.ColorAdjust;
@@ -21,6 +25,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -40,11 +50,21 @@ public class Board
     private ArrayList<TargetTile> targetTiles = new ArrayList<>();
     private ArrayList<BoxToken> boxTokens = new ArrayList<>();
 
+    private String remainingTime = "60";
+    private Text textTime = new Text("Time: ");
+    private Timeline sixtySecondsTimeLine;
+
+    private Text moveTimes = new Text("Move: 0 Time");
+    private Text gameLevelText;
+
+    private int numberOfMoveTimes = 0;
+
 
     public Board(int levelNumber)
     {
         this.levelNumber = levelNumber;
         readMap(this.levelNumber);
+        gameLevelText = new Text("Level " + levelNumber);
     }
 
     public StackPane getScene()
@@ -68,7 +88,26 @@ public class Board
         vBox.setAlignment(Pos.CENTER);
 
         vBox.getChildren().addAll(paneRootBoard);
-        hBox.getChildren().addAll(vBox);
+
+        VBox vBoxLevelStatus = new VBox();
+        vBoxLevelStatus.setAlignment(Pos.CENTER);
+
+        gameLevelText.setFill(Color.WHITE);
+        gameLevelText.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 50));
+
+        textTime.setText("Time: " + remainingTime);
+        textTime.setFill(Color.WHITE);
+        textTime.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 40));
+
+
+        moveTimes.setFill(Color.WHITE);
+        moveTimes.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 20));
+
+        vBoxLevelStatus.getChildren().addAll(gameLevelText, textTime, moveTimes);
+
+        hBox.getChildren().addAll(vBoxLevelStatus, vBox);
+        vBoxLevelStatus.setPadding(new Insets(0, 50, 0, 0));
+
         stackPaneBoard.getChildren().addAll(imageViewBackground, hBox);
 
         stackPaneBoard.setFocusTraversable(true);
@@ -185,6 +224,7 @@ public class Board
 
     private void moveSokobanUp()
     {
+        increaseNumberOfMovementOfSokoban();
         sokobanToken.changeImageToUp();
 
         int sokobanRow = sokobanToken.getRow();
@@ -210,6 +250,7 @@ public class Board
 
     private void moveSokobanDown()
     {
+        increaseNumberOfMovementOfSokoban();
         sokobanToken.changeImageToDown();
 
         int sokobanRow = sokobanToken.getRow();
@@ -234,6 +275,7 @@ public class Board
 
     private void moveSokobanLeft()
     {
+        increaseNumberOfMovementOfSokoban();
         sokobanToken.changeImageToLeft();
 
         int sokobanRow = sokobanToken.getRow();
@@ -258,6 +300,7 @@ public class Board
 
     private void moveSokobanRight()
     {
+        increaseNumberOfMovementOfSokoban();
         sokobanToken.changeImageToRight();
 
         int sokobanRow = sokobanToken.getRow();
@@ -280,6 +323,20 @@ public class Board
         }
     }
 
+    private void increaseNumberOfMovementOfSokoban()
+    {
+        String moveTimesString = "";
+        numberOfMoveTimes++;
+        if (numberOfMoveTimes > 1)
+        {
+            moveTimesString = "Move: " + numberOfMoveTimes + " Times";
+        } else
+        {
+            moveTimesString = "Move: " + numberOfMoveTimes + " Time";
+        }
+        moveTimes.setText(moveTimesString);
+    }
+
     private void moveBoxToRight(AbstractTile[] tile, int sokobanColumn)
     {
         if ((tile[sokobanColumn + 2] instanceof PathTile && !tile[sokobanColumn + 2].isTokenOnIt())
@@ -291,8 +348,7 @@ public class Board
             tile[sokobanColumn + 1].addSokobanToken(sokobanToken);
             tile[sokobanColumn + 2].addBoxToken(boxToken);
             isSolved();
-        }
-        else
+        } else
         {
             SoundLoader.playCrashSound();
         }
@@ -309,8 +365,7 @@ public class Board
             tile[sokobanColumn - 1].addSokobanToken(sokobanToken);
             tile[sokobanColumn - 2].addBoxToken(boxToken);
             isSolved();
-        }
-        else
+        } else
         {
             SoundLoader.playCrashSound();
         }
@@ -327,8 +382,7 @@ public class Board
             tiles[sokobanRow + 1][sokobanColumn].addSokobanToken(sokobanToken);
             tiles[sokobanRow + 2][sokobanColumn].addBoxToken(boxToken);
             isSolved();
-        }
-        else
+        } else
         {
             SoundLoader.playCrashSound();
         }
@@ -345,8 +399,7 @@ public class Board
             tiles[sokobanRow - 1][sokobanColumn].addSokobanToken(sokobanToken);
             tiles[sokobanRow - 2][sokobanColumn].addBoxToken(boxToken);
             isSolved();
-        }
-        else
+        } else
         {
             SoundLoader.playCrashSound();
         }
@@ -367,7 +420,9 @@ public class Board
 
         if (solved)
         {
-            Parent parent = new GameStatusMenu().createContent(stackPaneBoard);
+            sixtySecondsTimeLine.stop();
+
+            Parent parent = new GameStatusMenu().createVictoryMenu(stackPaneBoard);
             stackPaneBoard.getChildren().add(parent);
 
             if (Main.getPlayerInfo().grantLastPassedLevel(levelNumber))
@@ -390,5 +445,29 @@ public class Board
     public static boolean getPauseMenuStatus()
     {
         return pauseMenuShown;
+    }
+
+    public void startTimer()
+    {
+        sixtySecondsTimeLine = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                int remainingTimeValue = Integer.parseInt(remainingTime);
+                remainingTimeValue--;
+                remainingTime = String.valueOf(remainingTimeValue);
+                textTime.setText("Time: " + remainingTime);
+
+                if (remainingTimeValue == 0)
+                {
+                    sixtySecondsTimeLine.stop();
+                    Parent parent = new GameStatusMenu().createLoseMenu(stackPaneBoard);
+                    stackPaneBoard.getChildren().add(parent);
+                }
+            }
+        }));
+        sixtySecondsTimeLine.setCycleCount(Timeline.INDEFINITE);
+        sixtySecondsTimeLine.play();
     }
 }
