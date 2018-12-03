@@ -1,6 +1,11 @@
 # Sokoban JavaFX Game
 It is a Sokoban game which is implemented by JavaFX.
 
+![alt text][logo]
+
+[logo]: http://eloy.zone/static/sokoban-fx-web.gif "Screen Capture of App"
+
+
 # About Sokoban game
 Sokoban (倉庫番 sōko-ban, "warehouse keeper") is a type of puzzle video game, in which the player pushes boxes or crates around in a warehouse, trying to get them to storage locations.
 
