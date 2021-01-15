@@ -1,9 +1,8 @@
 # Sokoban JavaFX Game
 It is a Sokoban game which is implemented by JavaFX.
 
-![alt text][logo]
 
-[logo]: http://eloy.zone/static/sokoban-fx-web.gif "Screen Capture of App"
+![Sokoban JavaFX Game](https://github.com/eloyzone/sokoban-javafx-game/blob/master/sokoban-javafx-game.gif)
 
 
 # About Sokoban game
