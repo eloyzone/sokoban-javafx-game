@@ -193,7 +193,6 @@ public class Board
             @Override
             public void handle(KeyEvent event)
             {
-                System.out.println("here");
                 switch (event.getCode())
                 {
                     case UP:
@@ -232,7 +231,6 @@ public class Board
 
         if (tiles[sokobanRow - 1][sokobanColumn] instanceof WallTile)
         {
-            System.out.println("can't move");
             SoundLoader.playCrashSound();
         } else if ((tiles[sokobanRow - 1][sokobanColumn] instanceof PathTile) ||
                 (tiles[sokobanRow - 1][sokobanColumn] instanceof TargetTile))
@@ -258,7 +256,6 @@ public class Board
 
         if (tiles[sokobanRow + 1][sokobanColumn] instanceof WallTile)
         {
-            System.out.println("can't move");
             SoundLoader.playCrashSound();
         } else if ((tiles[sokobanRow + 1][sokobanColumn] instanceof PathTile) || (tiles[sokobanRow + 1][sokobanColumn] instanceof TargetTile))
         {
@@ -283,7 +280,6 @@ public class Board
 
         if (tiles[sokobanRow][sokobanColumn - 1] instanceof WallTile)
         {
-            System.out.println("can't move");
             SoundLoader.playCrashSound();
         } else if ((tiles[sokobanRow][sokobanColumn - 1] instanceof PathTile) || (tiles[sokobanRow][sokobanColumn - 1] instanceof TargetTile))
         {
@@ -308,7 +304,6 @@ public class Board
 
         if (tiles[sokobanRow][sokobanColumn + 1] instanceof WallTile)
         {
-            System.out.println("can't move");
             SoundLoader.playCrashSound();
         } else if ((tiles[sokobanRow][sokobanColumn + 1] instanceof PathTile) || (tiles[sokobanRow][sokobanColumn + 1] instanceof TargetTile))
         {
